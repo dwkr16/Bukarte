@@ -1,6 +1,5 @@
 package developers.findingcodes.bukarte;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -21,64 +20,58 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String REGISTER_URL = "http://developers.bukarte.com/example_api/usersignup";
+    private static final String LOGIN_URL = "http://developers.bukarte.com/example_api/userlogin";
 
     public static final String KEY_EMAIL = "email";
     public static final String KEY_PASSWORD = "c_password";
-    public static final String KEY_USERNAME = "c_name";
 
 
-    private EditText editTextUsername;
-    private EditText editTextEmail;
-    private EditText editTextPassword;
+    private EditText uEmail;
+    private EditText uPassword;
 
-    private Button buttonRegister;
-    private  Button buttonDoLogin;
+    private  Button buttonLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
-        editTextUsername = (EditText) findViewById(R.id.editTextUsername);
-        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
-        editTextEmail= (EditText) findViewById(R.id.editTextEmail);
+        uEmail= (EditText) findViewById(R.id.loginEmail);
 
-        buttonRegister = (Button) findViewById(R.id.buttonRegister);
+        uPassword = (EditText) findViewById(R.id.loginPassword);
 
-        buttonDoLogin =(Button) findViewById(R.id.buttonDoLogin);
-        buttonDoLogin.setOnClickListener(this);
-        buttonRegister.setOnClickListener(this);
+        buttonLogin = (Button) findViewById(R.id.buttonLogin);
+
+        buttonLogin.setOnClickListener(this);
 
     }
 
-    private void registerUser(){
-        final String username = editTextUsername.getText().toString().trim();
-        final String password = editTextPassword.getText().toString().trim();
-        final String email = editTextEmail.getText().toString().trim();
+    private void loginUser(){
+        final String email = uEmail.getText().toString().trim();
+
+        final String password = uPassword.getText().toString().trim();
 
         Map<String, String> postParam= new HashMap<String, String>();
         postParam.put(KEY_EMAIL,email);
         postParam.put(KEY_PASSWORD,password);
-        postParam.put(KEY_USERNAME, username);
 
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                REGISTER_URL, new JSONObject(postParam),
+                LOGIN_URL, new JSONObject(postParam),
                 new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(MainActivity.this, response.toString() ,Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, response.toString() ,Toast.LENGTH_LONG).show();
                     }
                 }, new Response.ErrorListener() {
 
             @Override
-                    public void onErrorResponse(VolleyError error) {
-                       Toast.makeText(MainActivity.this,error.toString(),Toast.LENGTH_LONG).show();
-                   }
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(LoginActivity.this,error.toString(),Toast.LENGTH_LONG).show();
+            }
         }) {
 
             /**
@@ -103,17 +96,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if(v == buttonRegister){
-            registerUser();
+        if(v == buttonLogin){
+            loginUser();
 
         }
-        else if(v== buttonDoLogin){
-            Intent intent = new Intent(MainActivity.this,
-                    LoginActivity.class);
-            startActivity(intent);
-            finish();
 
-        }
     }
 
 }
