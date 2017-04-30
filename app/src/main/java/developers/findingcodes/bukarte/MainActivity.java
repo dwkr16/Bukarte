@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Map<String, String> postParam= new HashMap<String, String>();
         postParam.put(KEY_EMAIL,email);
-        postParam.put(KEY_PASSWORD, password);
+        postParam.put(KEY_PASSWORD,password);
         postParam.put(KEY_USERNAME, username);
 
 
